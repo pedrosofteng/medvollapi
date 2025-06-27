@@ -1,15 +1,11 @@
-package med.voll.api.infra;
+package med.voll.api.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
-import med.voll.api.domain.medico.dto.MedicoDetalhesDTO;
-import med.voll.api.domain.medico.model.Medico;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Optional;
 
 // é uma anotação para classe exclusivas para tratar erros
 @RestControllerAdvice
