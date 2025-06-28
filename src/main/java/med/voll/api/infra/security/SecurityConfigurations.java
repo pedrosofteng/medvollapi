@@ -66,4 +66,6 @@ public class SecurityConfigurations {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    // ensina ao spring que ele vai usar esse algoritmo de hash
 }

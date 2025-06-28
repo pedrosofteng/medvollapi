@@ -2,9 +2,14 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.usuario.dto.UsuarioDTO;
+import med.voll.api.domain.usuario.model.Usuario;
+import med.voll.api.infra.security.TokenDTO;
+import med.voll.api.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,18 +31,47 @@ public class AutenticacaoController {
      */
 
     @Autowired
-    private AuthenticationManager manager;
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<Void> efetuarLogin(@RequestBody @Valid UsuarioDTO usuarioDTO) {
-        var token = new UsernamePasswordAuthenticationToken(usuarioDTO.login(), usuarioDTO.senha());
-        /* SPRING TEM O DTO DELE, não posso passar direto, pois ele espera já X dto
-        sempre que criarmos um token tem que ser dessa maneira para verificar
-         */
+    public ResponseEntity<?> efetuarLogin(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+        try {
+            var authenticationToken = new UsernamePasswordAuthenticationToken(usuarioDTO.login(), usuarioDTO.senha());
+            var authentication = authenticationManager.authenticate(authenticationToken);
+            /*
+            se falhar o authenticationManager ele devolve 403, e já para a requisição aqui
 
-        var authentication = manager.authenticate(token);
+            SPRING TEM O DTO DELE, não posso passar direto, pois ele espera já X dto
+            sempre que criarmos um token tem que ser dessa maneira para verificar
+            */
 
-        return ResponseEntity.ok().build();
+            var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+
+            return ResponseEntity.ok(new TokenDTO(tokenJWT));
+            // tudo que chega/sai da API tem um DTO
+
+            /*
+            authentication.getPrincipal() -> pega o login, username, usuário
+            (Usuario) faz um casting, porque authentication.getPrincipal() gera um objetc
+            então ele converte para usuário
+            nosso gerarToken precisa de um um
+             */
+        } catch (BadCredentialsException e) {
+            System.out.println("Credenciais inválidas!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login ou senha incorretos.");
+            /*
+            se der erro de credenciais inválidas ele vai me alertar, use BadCredentialsException
+             */
+        } catch (Exception e) {
+            System.out.println("Erro desconhecido: " + e.getMessage());
+            e.printStackTrace();
+            // vai listar qualquer mensagem de erro que vier
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro no login.");
+            // esse try catch vai listar qualquer outra mensagem de erro que possa vir
+        }
     }
 
     // ResquestBody para pegar o corpo da resposta e passar para UsuarioDTO

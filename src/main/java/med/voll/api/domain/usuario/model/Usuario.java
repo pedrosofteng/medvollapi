@@ -23,6 +23,14 @@ public class Usuario implements UserDetails {
     private String login;
     private String senha;
 
+    public Usuario() {
+    }
+
+    public Usuario(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,30 +68,22 @@ public class Usuario implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     // A CONTA DO USUÁRIO TEM UMA DATA DE EXPIRAÇÃO? RETURN --
 
     @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     // O USUÁRIO PODE SER BLOQUEADO? RETURN --
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
     // O USUÁRIO PODE TER AS CREDENCIAIS BLOQUEADAS? RETURN --
 
     // por padrão deixe true se não for USAR!
 
     @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
+    public boolean isEnabled() { return true; }
 }
