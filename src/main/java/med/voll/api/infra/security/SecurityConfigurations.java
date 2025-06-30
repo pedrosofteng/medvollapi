@@ -1,7 +1,9 @@
 package med.voll.api.infra.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,12 +12,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // enablewebsecurity indica que vamos personalizar as configurações de segurança
 // sempre que precisar que o spring carregue a classe, tem que ter anotação
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
+    @Autowired
+    private SecurityFilter securityFilter;
 
     /*
     a gente vai sair do processo statefull para stateless
@@ -35,6 +41,24 @@ public class SecurityConfigurations {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // daqui pra baixo
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .anyRequest().authenticated())
+                        /* ATÉ AQUI
+                        ele vai autorizar requisicao post para /login sem verificar
+                        agora anyRequest().authenticated() ele vai precisar de algo para permitir
+                        a requisicao em qualquer outro lugar, se quero get, post e etcc
+                        em qualquer outro http preciso ser autenticado
+                         */
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                /*
+                estou passando o meu filtro antes do filtro do Spring
+                por padrão ele coloca o dele primeiro, para verificar se estou logado
+                depois ele passa o nosso
+
+                com esse comando inverti as ordens, primeiro o meu filtro depois o filtro do Spring
+                 */
                 .build();
         /*
         cross-site- request forgery
