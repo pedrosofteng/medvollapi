@@ -2,13 +2,13 @@ package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.domain.medico.dto.MedicoAtualizacaoDTO;
-import med.voll.api.domain.medico.dto.MedicoCadastroDTO;
-import med.voll.api.domain.medico.dto.MedicoDetalhesDTO;
-import med.voll.api.domain.medico.model.Medico;
-import med.voll.api.domain.medico.dto.MedicoDTO;
+import med.voll.api.domain.medico.MedicoAtualizacaoDTO;
+import med.voll.api.domain.medico.MedicoCadastroDTO;
+import med.voll.api.domain.medico.MedicoDetalhesDTO;
+import med.voll.api.domain.medico.Medico;
+import med.voll.api.domain.medico.MedicoDTO;
 import med.voll.api.repository.MedicoRepository;
-import med.voll.api.domain.medico.service.ServiceMedico;
+import med.voll.api.domain.medico.ServiceMedico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +29,7 @@ public class MedicoController {
 //    }
 
     @Autowired
-    ServiceMedico service;
+    private ServiceMedico service;
 
     @Autowired
     private MedicoRepository repository;

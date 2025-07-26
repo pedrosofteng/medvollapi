@@ -44,6 +44,7 @@ public class SecurityConfigurations {
                 // daqui pra baixo
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login/criar").permitAll()
                         .anyRequest().authenticated())
                         /* ATÉ AQUI
                         ele vai autorizar requisicao post para /login sem verificar

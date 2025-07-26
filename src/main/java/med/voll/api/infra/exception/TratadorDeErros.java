@@ -23,6 +23,15 @@ public class TratadorDeErros {
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
         // estou criando uma variável com todos os erros
         var erros = ex.getFieldErrors();
+        /*
+        var erros = ex.getFieldErrors();
+        Pega todos os erros de campos (campos inválidos) que foram validados e falharam.
+        ex.getFieldErrors() retorna uma lista de FieldError. Cada FieldError contém informações como o nome do campo e a mensagem de erro.
+        erros.stream().map(ErroValidacaoDTO::new).toList()
+        Converte a lista de FieldError para uma lista de ErroValidacaoDTO.
+        O map(ErroValidacaoDTO::new) quer dizer: para cada erro, criar um novo ErroValidacaoDTO usando o construtor que recebe um FieldError
+        toList() transforma o Stream de volta para uma lista normal.
+         */
         return ResponseEntity.badRequest().body(erros.stream().map(ErroValidacaoDTO::new).toList());
         // vamos criar um record para receber esses erros
         // sempre precisa do to.List() para mandar pro return

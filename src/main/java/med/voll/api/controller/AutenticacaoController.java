@@ -1,16 +1,18 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.domain.usuario.dto.UsuarioDTO;
-import med.voll.api.domain.usuario.model.Usuario;
+import med.voll.api.domain.usuario.UsuarioDTO;
+import med.voll.api.domain.usuario.Usuario;
 import med.voll.api.infra.security.TokenDTO;
 import med.voll.api.infra.security.TokenService;
+import med.voll.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/login")
 public class AutenticacaoController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UsuarioRepository repository;
 
     /*
     vou chamar o AutenticationManager para chamar o AutenticacaoService
@@ -75,5 +83,12 @@ public class AutenticacaoController {
     }
 
     // ResquestBody para pegar o corpo da resposta e passar para UsuarioDTO
+
+    @PostMapping("/criar")
+    public ResponseEntity<?> criarUsuario(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+        var usuario = new Usuario(usuarioDTO.login(), passwordEncoder.encode(usuarioDTO.senha()));
+        repository.save(usuario);
+        return ResponseEntity.ok(usuario);
+    }
 
 }

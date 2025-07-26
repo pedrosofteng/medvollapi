@@ -1,8 +1,7 @@
-package med.voll.api.domain.medico.model;
+package med.voll.api.domain.endereco;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-import med.voll.api.domain.medico.dto.EnderecoDTO;
 
 // precisa dessa anotação na classe do embedded
 // endereço fica dentro de medico

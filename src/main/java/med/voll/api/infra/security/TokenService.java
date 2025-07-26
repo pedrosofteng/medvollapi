@@ -5,14 +5,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import io.github.cdimascio.dotenv.Dotenv;
-import med.voll.api.domain.usuario.model.Usuario;
+import med.voll.api.domain.usuario.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 @Service
 public class TokenService {

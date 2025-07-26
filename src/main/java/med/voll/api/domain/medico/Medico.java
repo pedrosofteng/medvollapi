@@ -1,11 +1,10 @@
-package med.voll.api.domain.medico.model;
+package med.voll.api.domain.medico;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import med.voll.api.domain.medico.dto.MedicoAtualizacaoDTO;
-import med.voll.api.domain.medico.dto.MedicoCadastroDTO;
+import med.voll.api.domain.endereco.Endereco;
 
 // EMBAIXO DO ENTITY É TUDO LOMBOK, para reduzir código
 // name do @Entity serve para JPQL, me referenciar a classe Medico
