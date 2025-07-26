@@ -1,6 +1,8 @@
 package med.voll.api.domain.endereco;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 // precisa dessa anotação na classe do embedded

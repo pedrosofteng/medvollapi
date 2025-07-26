@@ -5,12 +5,11 @@ import jakarta.validation.Valid;
 import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.awt.print.Pageable;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -20,7 +19,7 @@ public class PacienteController {
     private PacienteService service;
 
     @GetMapping
-    public ResponseEntity<?> listarPacientes(@PageableDefault(page = 0, size = 10, sort = "nome") Pageable paginacao) {
+    public ResponseEntity<?> listarPacientes(@PageableDefault(size = 10, page = 0, sort = {"nome"}) Pageable paginacao) {
         Page<PacienteDetalhesDTO> page = service.listar(paginacao);
         return ResponseEntity.ok(page);
     }
@@ -38,6 +37,14 @@ public class PacienteController {
     @PutMapping
     @Transactional
     public ResponseEntity<?> alterar(@RequestBody @Valid PacienteAtualizacaoDTO dados) {
+        var paciente = service.atualizarInformacoes(dados);
+        return ResponseEntity.ok(new PacienteDetalhesDTO(paciente));
+    }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }
