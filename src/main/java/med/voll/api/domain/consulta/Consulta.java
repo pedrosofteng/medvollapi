@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
 
+import java.time.LocalDateTime;
+
 @Table(name = "consultas")
 @Entity(name = "Consulta")
 @Getter
@@ -31,4 +33,6 @@ public class Consulta {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    private LocalDateTime data;
 }

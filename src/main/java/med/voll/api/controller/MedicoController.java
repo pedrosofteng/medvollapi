@@ -7,7 +7,7 @@ import med.voll.api.domain.medico.MedicoCadastroDTO;
 import med.voll.api.domain.medico.MedicoDetalhesDTO;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoDTO;
-import med.voll.api.repository.MedicoRepository;
+import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.medico.ServiceMedico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -91,6 +91,7 @@ public class MedicoController {
     @PutMapping
     @Transactional
     public ResponseEntity<MedicoDetalhesDTO> atualizar(@RequestBody @Valid MedicoAtualizacaoDTO dados) {
+        System.out.println(dados);
         var medico = repository.getReferenceById(dados.id());
         // busca pelo id
         medico.atualizarInformacoes(dados);

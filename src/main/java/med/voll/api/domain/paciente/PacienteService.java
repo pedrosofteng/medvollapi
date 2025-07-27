@@ -1,8 +1,6 @@
 package med.voll.api.domain.paciente;
 
 import jakarta.validation.Valid;
-import med.voll.api.repository.PacienteRepository;
-import med.voll.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +13,8 @@ public class PacienteService {
     @Autowired
     private PacienteRepository repository;
 
-    public Page<PacienteDetalhesDTO> listar(Pageable paginacao) {
-        return repository.findAllByAtivoTrue(paginacao).map(PacienteDetalhesDTO::new);
+    public Page<PacienteDTO> listar(Pageable paginacao) {
+        return repository.findAllByAtivoTrue(paginacao).map(PacienteDTO::new);
     }
 
     public Paciente atualizarInformacoes(@Valid PacienteAtualizacaoDTO dados) {
@@ -28,5 +26,14 @@ public class PacienteService {
     public void excluir(Long id) {
         var paciente = repository.getReferenceById(id);
         paciente.excluir();
+    }
+
+    public void salvar(Paciente paciente) {
+        repository.save(paciente);
+    }
+
+    public ResponseEntity<?> detalharPaciente(Long id) {
+        var paciente = repository.getReferenceById(id);
+        return ResponseEntity.ok(new PacienteDetalhesDTO(paciente));
     }
 }

@@ -12,6 +12,13 @@ public record AgendamentoConsultaDTO(
         @NotNull
         @Future
         LocalDateTime data) {
+
+        /*
+        2025-08-10T10:00
+        YYYY-MM-DD depois vem o T para separar das horas
+        HH:MM:SS
+        YYYY-MM-DDTHH:MM:SS os segundos são opcionais
+         */
 }
 
 /*

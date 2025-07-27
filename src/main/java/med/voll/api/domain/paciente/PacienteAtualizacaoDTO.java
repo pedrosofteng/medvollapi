@@ -5,17 +5,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.endereco.EnderecoDTO;
 
 public record PacienteAtualizacaoDTO(
         @NotNull
         Long id,
-        @NotBlank
+
         String nome,
-        @NotBlank
+
         @Pattern(regexp = "\\d{10,11}")
         String telefone,
-        @NotNull
-        @Valid
-        Endereco endereco
+
+        EnderecoDTO endereco
 ) {
 }

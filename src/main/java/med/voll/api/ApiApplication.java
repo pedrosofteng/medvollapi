@@ -11,5 +11,4 @@ public class ApiApplication {
 		ConfigEnv configEnv = new ConfigEnv();
 		SpringApplication.run(ApiApplication.class, args);
 	}
-
 }

@@ -5,7 +5,7 @@ import med.voll.api.domain.usuario.UsuarioDTO;
 import med.voll.api.domain.usuario.Usuario;
 import med.voll.api.infra.security.TokenDTO;
 import med.voll.api.infra.security.TokenService;
-import med.voll.api.repository.UsuarioRepository;
+import med.voll.api.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

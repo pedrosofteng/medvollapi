@@ -28,7 +28,7 @@ public class Paciente {
     private String cpf;
     @Embedded
     private Endereco endereco;
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     public Paciente(@Valid PacienteCadastroDTO dados) {
         this.nome = dados.nome();
@@ -46,7 +46,7 @@ public class Paciente {
             this.telefone = dados.telefone();
         }
         if(dados.endereco() != null) {
-            endereco.atualizarEndereco(new EnderecoDTO(dados.endereco()));
+            endereco.atualizarEndereco(dados.endereco());
         }
     }
 

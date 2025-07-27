@@ -20,7 +20,7 @@ public class PacienteController {
 
     @GetMapping
     public ResponseEntity<?> listarPacientes(@PageableDefault(size = 10, page = 0, sort = {"nome"}) Pageable paginacao) {
-        Page<PacienteDetalhesDTO> page = service.listar(paginacao);
+        Page<PacienteDTO> page = service.listar(paginacao);
         return ResponseEntity.ok(page);
     }
 
@@ -28,9 +28,8 @@ public class PacienteController {
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody @Valid PacienteCadastroDTO dados, UriComponentsBuilder uriBuilder) {
         var paciente = new Paciente(dados);
-
+        service.salvar(paciente);
         var uri = uriBuilder.path("/pacientes/{id}").buildAndExpand(paciente.getId()).toUri();
-
         return ResponseEntity.created(uri).body(new PacienteDetalhesDTO(paciente));
     }
 
@@ -46,5 +45,10 @@ public class PacienteController {
     public ResponseEntity<?> excluir(@PathVariable Long id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarEspecifico(@PathVariable Long id) {
+        return service.detalharPaciente(id);
     }
 }
