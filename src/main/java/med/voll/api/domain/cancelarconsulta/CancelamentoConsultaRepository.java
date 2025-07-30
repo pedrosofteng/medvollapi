@@ -1,4 +1,4 @@
-package med.voll.api.domain.consulta;
+package med.voll.api.domain.cancelarconsulta;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

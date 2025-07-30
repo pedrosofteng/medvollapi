@@ -2,6 +2,8 @@ package med.voll.api.domain.consulta;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 
@@ -18,4 +20,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
             LocalDateTime primeiroHorario,
             LocalDateTime ultimoHorario);
 
+    @Modifying
+    @Query("DELETE FROM Consulta c WHERE c.id = :id")
+    void deletarPorId(Long id);
 }

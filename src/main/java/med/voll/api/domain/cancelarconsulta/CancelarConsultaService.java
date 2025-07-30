@@ -1,8 +1,9 @@
-package med.voll.api.domain.consulta;
+package med.voll.api.domain.cancelarconsulta;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.ValidacaoException;
-import med.voll.api.domain.consulta.validacoes.ValidadorCancelamentoConsulta;
+import med.voll.api.domain.consulta.ConsultaRepository;
+import med.voll.api.domain.cancelarconsulta.validadores.ValidadorCancelamentoConsulta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,10 @@ public class CancelarConsultaService {
         var consulta = consultaRepository.findById(dados.idConsulta()).get();
 
         validador.forEach(v -> v.cancelarConsulta(dados, consulta));
-        var cancelamentoConsulta = new CancelamentoConsulta(null, consulta, dados.motivoCancelamento());
+        var cancelamentoConsulta = new CancelamentoConsulta(consulta, dados.motivoCancelamento());
+
         cancelamentoConsultaRepository.save(cancelamentoConsulta);
+
         return new CancelamentoConsultaDetalhesDTO(cancelamentoConsulta);
     }
 }
