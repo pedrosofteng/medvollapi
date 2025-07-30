@@ -3,10 +3,14 @@ package med.voll.api.domain.consulta.validacoes;
 import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.AgendamentoConsultaDTO;
 import med.voll.api.domain.consulta.ConsultaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ValidadorPacienteConsultaMesmaData {
+@Component
+public class ValidadorPacienteConsultaMesmaData implements ValidadorAngedamentoDeConsulta{
     // valida se o paciente tem consulta na mesma data, não pode
 
+    @Autowired
     private ConsultaRepository consultaRepository;
 
     public void validar(AgendamentoConsultaDTO dados) {

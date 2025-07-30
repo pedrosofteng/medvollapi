@@ -1,11 +1,14 @@
 package med.voll.api.domain.consulta;
 
 import med.voll.api.domain.ValidacaoException;
+import med.voll.api.domain.consulta.validacoes.ValidadorAngedamentoDeConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaDeConsultas {
@@ -18,6 +21,14 @@ public class AgendaDeConsultas {
 
     @Autowired
     private MedicoRepository medicoRepository;
+
+    @Autowired
+    private List<ValidadorAngedamentoDeConsulta> validadores;
+    /*
+    ele procura todas as classes que implementam essa interface, cria uma lista colocando cada uma dessas classes,
+    e injeta cada uma delas também no projeto, não importa se você tem 1 ou 10 validadores, ele vai implementar
+    todos que estejam "implements" essa interface
+     */
 
     public void agendar(AgendamentoConsultaDTO dados){
         if(!pacienteRepository.existsById(dados.idPaciente())) {
@@ -37,6 +48,13 @@ public class AgendaDeConsultas {
         como a gente não quer carregar o objeto, só queremos atribuir ele a entidade consulta
         vamos usar o getReferenceById, se precisasssemos carregar todo o objeto, usariamos o findById.get
          */
+
+        validadores.forEach(v -> v.validar(dados));
+        /*
+        chamo um forEach da lista de validadores, e como todos os validadores tem o mesmo nome de método validar,
+        ele vai passar um por um, passo como parâmetro os dados de AgendamentoConsultaDTO que eles tem no construtor
+         */
+
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
         var consulta = new Consulta(null, medico, paciente, dados.data());
