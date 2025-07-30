@@ -8,7 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 @Component
-public class ValidadorHorarioFuncionamentoClinica implements ValidadorAngedamentoDeConsulta{
+public class ValidadorHorarioFuncionamentoClinica implements ValidadorAgendamentoDeConsulta {
     // valida se está dentro do horário de funcionamento da clínica
 
     public void validar(AgendamentoConsultaDTO dados) {

@@ -2,7 +2,8 @@ package med.voll.api.domain.consulta.validacoes;
 
 import med.voll.api.domain.consulta.AgendamentoConsultaDTO;
 
-public interface ValidadorAngedamentoDeConsulta {
+public interface ValidadorAgendamentoDeConsulta {
+    // DESGIN PATTERN > STRATEGY || SOLID
 
     void validar(AgendamentoConsultaDTO dados);
 

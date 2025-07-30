@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidadorPacienteConsultaMesmaData implements ValidadorAngedamentoDeConsulta{
+public class ValidadorPacienteConsultaMesmaData implements ValidadorAgendamentoDeConsulta {
     // valida se o paciente tem consulta na mesma data, não pode
 
     @Autowired
@@ -17,7 +17,7 @@ public class ValidadorPacienteConsultaMesmaData implements ValidadorAngedamentoD
         var primeiroHorario = dados.data().withHour(7).withMinute(0);
         // estou colocando o primeiro horário da clínica, você seta com withHour, withMinute
         var ultimoHorario = dados.data().withHour(7).withMinute(0);
-        var pacientePossuiOutraConsultaNoDia = consultaRepository.existsByPacienteIdAndDataBetwenn(
+        var pacientePossuiOutraConsultaNoDia = consultaRepository.existsByPacienteIdAndDataBetween(
                 dados.idPaciente(),
                 primeiroHorario,
                 ultimoHorario);

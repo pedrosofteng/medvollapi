@@ -1,7 +1,7 @@
 package med.voll.api.domain.consulta;
 
 import med.voll.api.domain.ValidacaoException;
-import med.voll.api.domain.consulta.validacoes.ValidadorAngedamentoDeConsulta;
+import med.voll.api.domain.consulta.validacoes.ValidadorAgendamentoDeConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
@@ -22,15 +22,16 @@ public class AgendaDeConsultas {
     @Autowired
     private MedicoRepository medicoRepository;
 
+    // DESGIN PATTERN > STRATEGY || SOLID
     @Autowired
-    private List<ValidadorAngedamentoDeConsulta> validadores;
+    private List<ValidadorAgendamentoDeConsulta> validadores;
     /*
     ele procura todas as classes que implementam essa interface, cria uma lista colocando cada uma dessas classes,
     e injeta cada uma delas também no projeto, não importa se você tem 1 ou 10 validadores, ele vai implementar
     todos que estejam "implements" essa interface
      */
 
-    public void agendar(AgendamentoConsultaDTO dados){
+    public DetalhamentoConsultaDTO agendar(AgendamentoConsultaDTO dados){
         if(!pacienteRepository.existsById(dados.idPaciente())) {
             throw new ValidacaoException("Id do paciente informado não existe!");
             /*
@@ -51,15 +52,20 @@ public class AgendaDeConsultas {
 
         validadores.forEach(v -> v.validar(dados));
         /*
+        DESIGN PATTERN > STRATEGY || SOLID
         chamo um forEach da lista de validadores, e como todos os validadores tem o mesmo nome de método validar,
         ele vai passar um por um, passo como parâmetro os dados de AgendamentoConsultaDTO que eles tem no construtor
          */
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
+        if(medico == null) {
+            throw new ValidacaoException("Não existe médico disponível nessa data.");
+        }
         var consulta = new Consulta(null, medico, paciente, dados.data());
 
         consultaRepository.save(consulta);
+        return new DetalhamentoConsultaDTO(consulta);
     }
 
     private Medico escolherMedico(AgendamentoConsultaDTO dados) {

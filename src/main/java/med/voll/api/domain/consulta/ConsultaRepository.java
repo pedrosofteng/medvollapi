@@ -12,7 +12,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     // Retorna true se existir, ou false se não houver nenhuma consulta nesse horário para o médico informado.
     boolean existsByMedicoIdAndData(Long idMedico, LocalDateTime data);
 
-    boolean existsByPacienteIdAndDataBetwenn(
+    boolean existsByPacienteIdAndDataBetween(
             @NotNull
             Long idPaciente,
             LocalDateTime primeiroHorario,

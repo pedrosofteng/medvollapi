@@ -1,6 +1,7 @@
 package med.voll.api.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import med.voll.api.domain.ValidacaoException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 // é uma anotação para classe exclusivas para tratar erros
 @RestControllerAdvice
 public class TratadorDeErros {
+
+    @ExceptionHandler(ValidacaoException.class)
+    public ResponseEntity<?> tratarRegraDeNegocio(ValidacaoException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
     // se em qualquer lugar do projeto for lançada uma exceção EntityNotFound ele vai lançar
     // essa resposta == erro 404, antes era 500

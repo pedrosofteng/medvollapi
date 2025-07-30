@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 //@Component = componente genérico
 @Component
-public class ValidadorHorarioAntecedencia implements ValidadorAngedamentoDeConsulta{
+public class ValidadorHorarioAntecedencia implements ValidadorAgendamentoDeConsulta {
     // paciente tem que ter uma distância de 30 minutos para marcar uma consulta, não pode marcar pra daqui 15 min
 
     public void validar(AgendamentoConsultaDTO dados) {
