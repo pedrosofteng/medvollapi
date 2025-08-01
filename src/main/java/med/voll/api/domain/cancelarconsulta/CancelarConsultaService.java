@@ -35,6 +35,7 @@ public class CancelarConsultaService {
         var cancelamentoConsulta = new CancelamentoConsulta(consulta, dados.motivoCancelamento());
 
         cancelamentoConsultaRepository.save(cancelamentoConsulta);
+        consulta.excluir();
 
         return new CancelamentoConsultaDetalhesDTO(cancelamentoConsulta);
     }

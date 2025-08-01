@@ -43,9 +43,15 @@ public class Consulta {
 
     private LocalDateTime data;
 
+    private Boolean ativo = true;
+
     public Consulta(Medico medico, Paciente paciente, @NotNull @Future LocalDateTime data) {
         this.medico = medico;
         this.paciente = paciente;
         this.data = data;
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }

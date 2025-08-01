@@ -12,15 +12,10 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     // Verifica se já existe uma consulta marcada para um médico específico em uma data e hora exatas.
     // Retorna true se existir, ou false se não houver nenhuma consulta nesse horário para o médico informado.
-    boolean existsByMedicoIdAndData(Long idMedico, LocalDateTime data);
+    boolean existsByMedicoIdAndDataAndAtivoIsTrue(Long idMedico, LocalDateTime data);
 
-    boolean existsByPacienteIdAndDataBetween(
-            @NotNull
-            Long idPaciente,
+    boolean existsByPacienteIdAndDataBetweenAndAtivoIsTrue(
+            @NotNull Long idPaciente,
             LocalDateTime primeiroHorario,
             LocalDateTime ultimoHorario);
-
-    @Modifying
-    @Query("DELETE FROM Consulta c WHERE c.id = :id")
-    void deletarPorId(Long id);
 }

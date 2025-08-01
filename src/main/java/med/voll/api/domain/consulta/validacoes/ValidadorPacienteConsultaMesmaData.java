@@ -17,7 +17,7 @@ public class ValidadorPacienteConsultaMesmaData implements ValidadorAgendamentoD
         var primeiroHorario = dados.data().withHour(7).withMinute(0);
         // estou colocando o primeiro horário da clínica, você seta com withHour, withMinute
         var ultimoHorario = dados.data().withHour(7).withMinute(0);
-        var pacientePossuiOutraConsultaNoDia = consultaRepository.existsByPacienteIdAndDataBetween(
+        var pacientePossuiOutraConsultaNoDia = consultaRepository.existsByPacienteIdAndDataBetweenAndAtivoIsTrue(
                 dados.idPaciente(),
                 primeiroHorario,
                 ultimoHorario);

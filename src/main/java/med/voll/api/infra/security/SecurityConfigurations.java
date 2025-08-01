@@ -45,6 +45,8 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login/criar").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                        // ** = qualquer coisa a partir desse endereço pode liberar
                         .anyRequest().authenticated())
                         /* ATÉ AQUI
                         ele vai autorizar requisicao post para /login sem verificar
